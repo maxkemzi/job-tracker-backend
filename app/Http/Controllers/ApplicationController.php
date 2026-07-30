@@ -45,11 +45,9 @@ class ApplicationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Application $application)
+    public function show(Application $application)
     {
-        if ($application->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+        $this->authorize('view', $application);
 
         return response()->json($application);
     }
@@ -59,9 +57,7 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, Application $application)
     {
-        if ($application->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+        $this->authorize('update', $application);
 
         $validated = $request->validate([
             'company' => 'sometimes|required|string',
@@ -81,11 +77,9 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Application $application)
+    public function destroy(Application $application)
     {
-        if ($application->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Forbidden'], 403);
-        }
+        $this->authorize('delete', $application);
 
         $application->delete();
 
