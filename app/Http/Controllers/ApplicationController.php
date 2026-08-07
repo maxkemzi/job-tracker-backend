@@ -23,6 +23,7 @@ class ApplicationController extends Controller
         $validated = $request->validate([
             'company' => 'required|string',
             'role' => 'required|string',
+            'status' => 'sometimes|required|in:applied,screening,interview,technical,offer,rejected',
             'date_applied' => 'required|date',
             'salary_expectation' => 'nullable|integer',
             'notes' => 'nullable|string',
@@ -33,6 +34,7 @@ class ApplicationController extends Controller
             'user_id' => $request->user()->id,
             'company' => $validated['company'],
             'role' => $validated['role'],
+            'status' => $validated['status'] ?? 'applied',
             'date_applied' => $validated['date_applied'],
             'salary_expectation' => $validated['salary_expectation'] ?? null,
             'notes' => $validated['notes'] ?? null,
